@@ -1,0 +1,27 @@
+MVP: (Core features)
+    Pages:  
+        - Login (DONE)
+        - Sign Up (DONE)
+        - Dashboard (DONE)
+
+    Components:
+        - Login header
+        - Navbar
+            - Logo
+            - Avatar
+            - Logout Button
+        - Statistics
+            - Photos Number
+        - Upload Form 
+        - Photos 
+        - Photo 
+        - footer
+
+    - Firebase Auth (NOT DONE)
+    - Firebase Firestore (DONE)
+    - Firebase Storage (DONE)
+
+Nice to have features:
+    - Statistics:  Display Last upload time
+    - Dark Mode
+    - 
