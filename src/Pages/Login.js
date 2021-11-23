@@ -12,13 +12,33 @@ const Login = () => {
   const { auth, setUserUrls } = GlobalContext();
   const history = useHistory();
   const _ismounted = useRef(true);
-  
-  
+
   useEffect(() => {
     return () => {
-      _ismounted.current = false
-    }
-  }, [])
+      _ismounted.current = false;
+    };
+  }, []);
+
+  const demoAccHandler = async () => {
+    await signInWithEmailAndPassword(auth, "test@gmail.com", "test123").then(() => {
+      if (_ismounted.current) {
+        try {
+          // Signed in
+          setLoading(false);
+          setEmail("");
+          setPw("");
+
+          history.push("/dashboard");
+        } catch (error) {
+          setLoading(false);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
+        }
+      }
+    });
+  }
 
   useEffect(() => {
     setUserUrls([]);
@@ -46,7 +66,6 @@ const Login = () => {
         }
       }
     });
-
   };
 
   return (
@@ -54,7 +73,7 @@ const Login = () => {
       <LoginHeader />
       <article className="sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
         <h1 className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
-          Login
+          Log in
         </h1>
         <form
           className="flex items-center flex-col p-4 "
@@ -95,9 +114,12 @@ const Login = () => {
             className="border-4 px-4 py-2 bg-blue-third"
             style={loading ? { backgroundColor: "#fff" } : {}}
           >
-            {loading ? "Loading" : "Login"}
+            {loading ? "Loading" : "Log in"}
           </button>
+          
         </form>
+        <button className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third" onClick={demoAccHandler}>Demo Account</button>
+
         <p className="text-center">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-third">

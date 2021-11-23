@@ -27,9 +27,14 @@ const UploadForm = () => {
         e.target.files[0].type === "image/png"
       ) {
         console.log(e.target.files[0]);
-        
+        setFlag('Uploading...')
         uploadFile(e.target.files[0]);
         
+      } else {
+        setFlag("The file you're trying to upload is not an image")
+        setTimeout(() => {
+          setFlag('')
+        }, 3000)
       }
     }
   };
@@ -89,6 +94,7 @@ const UploadForm = () => {
               console.log("File available at", downloadURL);
               uploadUrl(downloadURL);
               getUrls(currentUser.uid);
+              setFlag("")
             }
           });
         }
@@ -116,9 +122,9 @@ const UploadForm = () => {
       >
         <AiOutlineUpload />
       </button>
-      {flag === "Uploading..." && <h3>{flag}</h3>}
+      <h1 className="text-center mt-4">{flag}</h1>
       <div
-        className="progress h-1 bg-blue-primary mt-4"
+        className="progress h-1 bg-blue-primary"
         style={{ width: `${progress}%`, maxWidth: "80%"}}
       ></div>
     </form>

@@ -25,6 +25,7 @@ export const AppProvider = ({ children }) => {
  
 
   const getUrls = useCallback(
+    
     async (uid) => {
       
         const querySnapshot = await getDocs(
@@ -38,7 +39,7 @@ export const AppProvider = ({ children }) => {
           ]);
         });
       
-      
+        
     },
     
     
