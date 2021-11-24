@@ -20,6 +20,7 @@ const Login = () => {
   }, []);
 
   const demoAccHandler = async () => {
+    setLoading(true);
     await signInWithEmailAndPassword(auth, "test@gmail.com", "test123").then(
       () => {
         if (_ismounted.current) {

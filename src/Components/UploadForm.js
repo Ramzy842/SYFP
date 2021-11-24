@@ -39,16 +39,18 @@ const UploadForm = () => {
     }
   };
 
-  const uploadUrl = async (url) => {
+  const uploadUrl = async (url, filename) => {
     // Add a new document with a generated id.
     if (_isMounted.current) {
       const docRef = await addDoc(
         collection(firestore, `users/user_${currentUser.uid}/images`),
         {
           downloadURL: url,
+          name: filename
         }
       );
       console.log("Document written with ID: ", docRef.id);
+     
     }
   };
 
@@ -92,7 +94,7 @@ const UploadForm = () => {
             if (_isMounted.current) {
               setProgress(0);
               console.log("File available at", downloadURL);
-              uploadUrl(downloadURL);
+              uploadUrl(downloadURL, file.name);
               getUrls(currentUser.uid);
               setFlag("")
             }

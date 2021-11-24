@@ -10,40 +10,27 @@ export const AppProvider = ({ children }) => {
   const [userUrls, setUserUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const auth = getAuth();
-  
 
   useEffect(() => {
     let unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
-    
+
     return unsub;
-  
   }, [auth]);
 
- 
-
   const getUrls = useCallback(
-    
     async (uid) => {
-      
-        const querySnapshot = await getDocs(
-          collection(firestore, `users/user_${uid}/images`)
-        );
-  
-        querySnapshot.forEach((doc) => {
-          
-          setUserUrls((userUrls) => [
-            ...new Set([...userUrls, doc.data().downloadURL]),
-          ]);
-        });
-      
-        
+      const querySnapshot = await getDocs(
+        collection(firestore, `users/user_${uid}/images`)
+      );
+      setUserUrls([]);
+      querySnapshot.forEach((doc) => {
+        setUserUrls((userUrls) => [...new Set([...userUrls, {data: doc.data(), id: doc.id}])]);
+      });
     },
-    
-    
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
   );
@@ -59,7 +46,6 @@ export const AppProvider = ({ children }) => {
         setUserUrls,
         loading,
         setLoading,
-        
       }}
     >
       {!loading && children}
