@@ -12,7 +12,7 @@ const Login = () => {
   const { auth, setUserUrls } = GlobalContext();
   const history = useHistory();
   const _ismounted = useRef(true);
-
+  const [error, setError] = useState("");
   useEffect(() => {
     return () => {
       _ismounted.current = false;
@@ -20,25 +20,28 @@ const Login = () => {
   }, []);
 
   const demoAccHandler = async () => {
-    await signInWithEmailAndPassword(auth, "test@gmail.com", "test123").then(() => {
-      if (_ismounted.current) {
-        try {
-          // Signed in
-          setLoading(false);
-          setEmail("");
-          setPw("");
+    await signInWithEmailAndPassword(auth, "test@gmail.com", "test123").then(
+      () => {
+        if (_ismounted.current) {
+          try {
+            // Signed in
+            setLoading(false);
+            setEmail("");
+            setPw("");
 
-          history.push("/dashboard");
-        } catch (error) {
-          setLoading(false);
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
+            history.push("/dashboard");
+          } catch (error) {
+            setLoading(false);
+
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+          }
         }
       }
-    });
-  }
+    );
+  };
 
   useEffect(() => {
     setUserUrls([]);
@@ -48,24 +51,32 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    await signInWithEmailAndPassword(auth, email, pw).then(() => {
-      if (_ismounted.current) {
-        try {
-          // Signed in
-          setLoading(false);
-          setEmail("");
-          setPw("");
+    await signInWithEmailAndPassword(auth, email, pw)
+      .then(() => {
+        if (_ismounted.current) {
+          try {
+            // Signed in
 
-          history.push("/dashboard");
-        } catch (error) {
-          setLoading(false);
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
+            setEmail("");
+            setPw("");
+
+            history.push("/dashboard");
+          } catch (error) {}
         }
-      }
-    });
+      })
+      .catch((err) => {
+        if (_ismounted.current) {
+          setError("A user with this email does not exist");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        }
+      })
+      .finally(() => {
+        if (_ismounted.current) {
+          setLoading(false);
+        }
+      });
   };
 
   return (
@@ -79,6 +90,14 @@ const Login = () => {
           className="flex items-center flex-col p-4 "
           onSubmit={handleSubmit}
         >
+          {error && (
+            <h1
+              style={{ backgroundColor: "#EA3C53" }}
+              className="py-2 px-4 mb-4 text-sm sm:text-md lg:text-lg text-white"
+            >
+              {error}
+            </h1>
+          )}
           <div className="email flex-col flex mb-2">
             <label htmlFor="email" className="text-lg mb-2">
               Email
@@ -116,9 +135,13 @@ const Login = () => {
           >
             {loading ? "Loading" : "Log in"}
           </button>
-          
         </form>
-        <button className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third" onClick={demoAccHandler}>Demo Account</button>
+        <button
+          className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third"
+          onClick={demoAccHandler}
+        >
+          Demo Account
+        </button>
 
         <p className="text-center">
           Don't have an account?{" "}
