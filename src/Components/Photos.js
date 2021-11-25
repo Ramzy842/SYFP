@@ -14,7 +14,7 @@ const Photos = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 p-4 gap-2 md:gap-0 sm:grid-cols-3 sm:w-11/12 justify-items-center mx-auto ">
+    <div className="grid grid-cols-2 p-4 gap-2 md:gap-0 md:gap-y-4 sm:grid-cols-3 sm:w-11/12 justify-items-center mx-auto ">
       {userUrls.map((image, index) => {
         
         return <Photo key={index} {...image} />;
