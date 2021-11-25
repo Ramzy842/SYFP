@@ -7,7 +7,7 @@ import { storage } from "../firebase.config";
 import { ref, deleteObject } from "firebase/storage";
 
 const Photo = ({ id, data, name }) => {
-  const { currentUser, userUrls, setUserUrls } = GlobalContext();
+  const { currentUser, userUrls, setUserUrls, setFullPicture } = GlobalContext();
 
   const deleteImgHandler = async (uid, id, name) => {
     let newUrls = userUrls.filter((image) => image.id !== id);
@@ -30,8 +30,10 @@ const Photo = ({ id, data, name }) => {
     <div className="border-4 border-blue-secondary flex flex-col pb-2">
       <img
         src={data.downloadURL}
-        className="h-36 w-36 sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-72 lg:w-72"
+        className=" cursor-pointer h-36 w-36 sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-72 lg:w-72"
         alt={data.name}
+        onClick={() => setFullPicture(data.downloadURL)}
+
       />
       <AiFillDelete
         onClick={() => deleteImgHandler(currentUser.uid, id, data.name)}

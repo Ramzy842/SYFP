@@ -9,6 +9,7 @@ export const AppProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [userUrls, setUserUrls] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fullPicture, setFullPicture] = useState(null);
   const auth = getAuth();
 
   useEffect(() => {
@@ -27,7 +28,9 @@ export const AppProvider = ({ children }) => {
       );
       setUserUrls([]);
       querySnapshot.forEach((doc) => {
-        setUserUrls((userUrls) => [...new Set([...userUrls, {data: doc.data(), id: doc.id}])]);
+        setUserUrls((userUrls) => [
+          ...new Set([...userUrls, { data: doc.data(), id: doc.id }]),
+        ]);
       });
     },
 
@@ -46,6 +49,8 @@ export const AppProvider = ({ children }) => {
         setUserUrls,
         loading,
         setLoading,
+        fullPicture,
+        setFullPicture,
       }}
     >
       {!loading && children}

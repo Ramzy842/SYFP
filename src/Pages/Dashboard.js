@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import FullPic from "../Components/FullPic";
 import Navbar from "../Components/Navbar";
 import Photos from "../Components/Photos";
 import UploadForm from "../Components/UploadForm";
 import GlobalContext from "../Context";
 
 const Dashboard = () => {
-  const { getUrls, currentUser } = GlobalContext();
+  const { getUrls, currentUser, fullPicture } = GlobalContext();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const Dashboard = () => {
   }, [getUrls, currentUser]);
 
   return (
-    <div className="dashboard bg-blue-fourth min-h-screen">
+    <div className="bg-blue-fourth min-h-screen relative">
       <Navbar />
       <UploadForm />
       {loading ? (
@@ -27,6 +28,7 @@ const Dashboard = () => {
       ) : (
         <Photos />
       )}
+      {fullPicture && <FullPic />}
     </div>
   );
 };
