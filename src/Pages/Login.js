@@ -66,12 +66,12 @@ const Login = () => {
           } catch (error) {}
         }
       })
-      .catch((err) => {
+      .catch(() => {
         if (_ismounted.current) {
-          setError("A user with this email does not exist");
+          setError("A user with this email does not exist or you're password might be wrong");
           setTimeout(() => {
             setError("");
-          }, 3000);
+          }, 5000);
         }
       })
       .finally(() => {
@@ -83,20 +83,12 @@ const Login = () => {
 
   return (
     <motion.section className="  login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2 ">
-      <LoginHeader  />
+      <LoginHeader />
       <article className=" overflow-hidden sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
-        <motion.h1
-          initial={{ y: "-100vh" }}
-          transition={{ duration: 2 }}
-          animate={{ y: 0 }}
-          className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl"
-        >
+        <motion.h1 className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
           Log in
         </motion.h1>
         <motion.form
-          initial={{ y: "-100vh" }}
-          transition={{ duration: 2 }}
-          animate={{ y: 0 }}
           className="flex items-center flex-col p-4 "
           onSubmit={handleSubmit}
         >
@@ -147,21 +139,13 @@ const Login = () => {
           </button>
         </motion.form>
         <motion.button
-          initial={{ y: "-100vh" }}
-          transition={{ duration: 2 }}
-          animate={{ y: 0 }}
           className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third"
           onClick={demoAccHandler}
         >
           Demo Account
         </motion.button>
 
-        <motion.p
-          initial={{ y: "-100vh" }}
-          transition={{ duration: 2 }}
-          animate={{ y: 0 }}
-          className="text-center"
-        >
+        <motion.p className="text-center">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-third">
             Sign Up

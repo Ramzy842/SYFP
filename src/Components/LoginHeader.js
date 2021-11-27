@@ -4,7 +4,7 @@ import {motion} from "framer-motion"
 
 const LoginHeader = () => {
   return (
-    <motion.article initial={{y: "50vh"}} transition={{duration: 1}} animate={{y:0}} className="  flex items-center justify-center flex-col p-2 ">
+    <motion.article className="  flex items-center justify-center flex-col p-2 ">
       <Link to="/" className=" text-5xl mb-3 ">
         <p > SYFP</p>
       </Link>

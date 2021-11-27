@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Footer from "../Components/Footer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -9,38 +9,57 @@ const SignUp = () => {
   const emailRef = useRef(null);
   const pwRef = useRef(null);
   const pwConfirmRef = useRef(null);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
-  const { auth} = GlobalContext();
-  const history = useHistory()
-  
+  const [error, setError] = useState("");
+  const { auth } = GlobalContext();
+  const history = useHistory();
+
+  const _isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      _isMounted.current = false;
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (pw === pwConfirm) {
+    if (pw === pwConfirm && _isMounted.current) {
       setLoading(true);
 
       await createUserWithEmailAndPassword(auth, email, pw)
         .then((userCredential) => {
-          // Signed in
-          setLoading(false);
-          setEmail("");
-          setPw("");
-          setPwConfirm("");
-          history.push("/dashboard")
+          if (_isMounted.current) {
+            // Signed in
+            setLoading(false);
+            setEmail("");
+            setPw("");
+            setPwConfirm("");
+            history.push("/dashboard");
+          }
         })
-        .catch((error) => {
-          setLoading(false);
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode);
-          console.log(errorMessage);
+        .catch(() => {
+          if (_isMounted.current) {
+            setLoading(false);
+            setError("This email is already in use");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          }
+
           // ..
         });
+    } else if (_isMounted.current && pw !== pwConfirm ) {
+      setLoading(false)
+      setError("Please make sure your passwords match")
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     }
-    
   };
 
   return (
@@ -54,6 +73,14 @@ const SignUp = () => {
           className="flex items-center flex-col p-4"
           onSubmit={handleSubmit}
         >
+          {error && (
+            <h1
+              style={{ backgroundColor: "#EA3C53" }}
+              className="py-2 px-4 mb-4 text-sm sm:text-md lg:text-lg text-white"
+            >
+              {error}
+            </h1>
+          )}
           <div className="email flex-col flex mb-2">
             <label htmlFor="email" className="text-lg mb-2">
               Email
@@ -81,6 +108,7 @@ const SignUp = () => {
               className="bg-blue-fourth p-2 w-72"
               name="password"
               id="password"
+              required
             />
           </div>
           <div className="passwordConfirm flex-col flex mb-4">
@@ -95,6 +123,7 @@ const SignUp = () => {
               className="bg-blue-fourth p-2 w-72"
               name="passwordConfirm"
               id="passwordConfirm"
+              required
             />
           </div>
           <button
