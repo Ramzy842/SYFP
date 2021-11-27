@@ -127,6 +127,7 @@ const Login = () => {
               className="bg-blue-fourth p-2 w-72"
               name="password"
               id="password"
+              required
             />
           </div>
           <button
