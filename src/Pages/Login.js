@@ -4,6 +4,7 @@ import Footer from "../Components/Footer";
 import LoginHeader from "../Components/LoginHeader";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import GlobalContext from "../Context";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -81,13 +82,21 @@ const Login = () => {
   };
 
   return (
-    <section className="login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2 ">
-      <LoginHeader />
-      <article className="sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
-        <h1 className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
+    <motion.section className="  login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2 ">
+      <LoginHeader  />
+      <article className=" overflow-hidden sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
+        <motion.h1
+          initial={{ y: "-100vh" }}
+          transition={{ duration: 2 }}
+          animate={{ y: 0 }}
+          className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl"
+        >
           Log in
-        </h1>
-        <form
+        </motion.h1>
+        <motion.form
+          initial={{ y: "-100vh" }}
+          transition={{ duration: 2 }}
+          animate={{ y: 0 }}
           className="flex items-center flex-col p-4 "
           onSubmit={handleSubmit}
         >
@@ -136,23 +145,31 @@ const Login = () => {
           >
             {loading ? "Loading" : "Log in"}
           </button>
-        </form>
-        <button
+        </motion.form>
+        <motion.button
+          initial={{ y: "-100vh" }}
+          transition={{ duration: 2 }}
+          animate={{ y: 0 }}
           className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third"
           onClick={demoAccHandler}
         >
           Demo Account
-        </button>
+        </motion.button>
 
-        <p className="text-center">
+        <motion.p
+          initial={{ y: "-100vh" }}
+          transition={{ duration: 2 }}
+          animate={{ y: 0 }}
+          className="text-center"
+        >
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-third">
             Sign Up
           </Link>
-        </p>
+        </motion.p>
       </article>
       <Footer />
-    </section>
+    </motion.section>
   );
 };
 

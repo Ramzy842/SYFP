@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {motion} from "framer-motion"
 
 const LoginHeader = () => {
   return (
-    <article className=" flex items-center justify-center flex-col p-2 ">
-      <Link to="/" className="text-5xl mb-3 ">
-        SYFP
+    <motion.article initial={{y: "50vh"}} transition={{duration: 1}} animate={{y:0}} className="  flex items-center justify-center flex-col p-2 ">
+      <Link to="/" className=" text-5xl mb-3 ">
+        <p > SYFP</p>
       </Link>
-      <p className="text-md sm:text-xl capitalize">
+      <p className=" text-md sm:text-xl capitalize">
         Store your favorite photos for free
       </p>
-    </article>
+    </motion.article>
   );
 };
 

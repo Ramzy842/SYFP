@@ -6,12 +6,16 @@ import { collection, addDoc } from "firebase/firestore";
 import { AiOutlineUpload } from "react-icons/ai";
 import GlobalContext from "../Context";
 import { v4 as uuidv4 } from "uuid";
+import { motion } from "framer-motion";
 const UploadForm = () => {
   const [progress, setProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
   const _isMounted = useRef(true);
   const { getUrls, currentUser } = GlobalContext();
+  const fileUploadRef = useRef();
+  
+
   const [flag, setFlag] = useState("");
-  const fileUploadRef = useRef(null);
 
   useEffect(() => {
     return () => {
@@ -21,15 +25,14 @@ const UploadForm = () => {
 
   // 'file' comes from the Blob or File API
   const handleChange = (e) => {
-    if (e.target.files[0] && _isMounted.current) {
-      if (
-        e.target.files[0].type === "image/jpeg" ||
-        e.target.files[0].type === "image/png"
-      ) {
-        console.log(e.target.files[0]);
+    let selected = e.target.files[0];
+
+    if (selected && _isMounted.current) {
+      if (selected.type === "image/jpeg" || selected.type === "image/png") {
+        setUploading(true);
         setFlag("Uploading...");
 
-        uploadFile(e.target.files[0]);
+        uploadFile(selected);
       } else {
         setFlag("The file you're trying to upload is not an image");
         setTimeout(() => {
@@ -51,7 +54,6 @@ const UploadForm = () => {
           name: filename,
         }
       );
-      console.log("Document written with ID: ", docRef.id);
     }
   };
 
@@ -80,14 +82,7 @@ const UploadForm = () => {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setProgress(progress);
           console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
+          
         }
       },
       (error) => {
@@ -99,10 +94,13 @@ const UploadForm = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           if (_isMounted.current) {
             setProgress(0);
-            console.log("File available at", downloadURL);
+            
             uploadUrl(downloadURL, `${file.name}_${id}`);
             getUrls(currentUser.uid);
             setFlag("");
+            setUploading(false);
+            
+            fileUploadRef.current.value = "";
           }
         });
       }
@@ -128,11 +126,30 @@ const UploadForm = () => {
       >
         <AiOutlineUpload />
       </button>
-      <h1 className="text-center mt-4">{flag}</h1>
-      <div
-        className="progress h-1 bg-blue-primary"
-        style={{ width: `${progress}%`, maxWidth: "80%" }}
-      ></div>
+      <motion.h1
+        className={`text-center mt-4`}
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ yoyo: Infinity }}
+      >
+        {flag}
+      </motion.h1>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className={`progress h-1 bg-blue-third flex ${
+          uploading && "w-4/5"
+        } mt-2 justify-start`}
+      >
+        <motion.div
+          className="progress h-1 justify-self-center bg-blue-primary "
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 1 }}
+        ></motion.div>
+      </motion.div>
+      
     </form>
   );
 };
