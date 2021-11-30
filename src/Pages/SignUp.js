@@ -4,6 +4,7 @@ import Footer from "../Components/Footer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import GlobalContext from "../Context";
 import LoginHeader from "../Components/LoginHeader";
+import {motion} from "framer-motion"
 
 const SignUp = () => {
   const emailRef = useRef(null);
@@ -14,7 +15,7 @@ const SignUp = () => {
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
   const [error, setError] = useState("");
-  const { auth } = GlobalContext();
+  const { auth, loginVariants } = GlobalContext();
   const history = useHistory();
 
   const _isMounted = useRef(true);
@@ -66,10 +67,11 @@ const SignUp = () => {
     <section className="login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2">
       <LoginHeader />
       <article className="sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
-        <h1 className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
+        <motion.h1 variants={loginVariants} initial="hidden" animate="visible" className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
           Sign up
-        </h1>
-        <form
+        </motion.h1>
+        <motion.form
+        variants={loginVariants} initial="hidden" animate="visible"
           className="flex items-center flex-col p-4"
           onSubmit={handleSubmit}
         >
@@ -134,13 +136,13 @@ const SignUp = () => {
           >
             {loading ? "Loading" : "Sign Up"}
           </button>
-        </form>
-        <p className="text-center">
+        </motion.form>
+        <motion.p variants={loginVariants} initial="hidden" animate="visible" className="text-center">
           Already have an account?{" "}
           <Link to="/" className="text-blue-third">
             Log in
           </Link>
-        </p>
+        </motion.p>
       </article>
       <Footer />
     </section>

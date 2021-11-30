@@ -47,6 +47,7 @@ const UploadForm = () => {
   const uploadUrl = async (url, filename) => {
     // Add a new document with a generated id.
     if (_isMounted.current) {
+      // eslint-disable-next-line no-unused-vars
       const docRef = await addDoc(
         collection(firestore, `users/user_${currentUser.uid}/images`),
         {

@@ -6,14 +6,21 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import GlobalContext from "../Context";
 import { motion } from "framer-motion";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
-  const { auth, setUserUrls } = GlobalContext();
+  const { auth, setUserUrls, loginVariants} = GlobalContext();
   const history = useHistory();
   const _ismounted = useRef(true);
   const [error, setError] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  
+ 
+
+  
+
   useEffect(() => {
     return () => {
       _ismounted.current = false;
@@ -81,14 +88,17 @@ const Login = () => {
       });
   };
 
+  
+
   return (
     <motion.section className="  login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2 ">
       <LoginHeader />
       <article className=" overflow-hidden sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
-        <motion.h1 className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
+        <motion.h1 variants={loginVariants} initial="hidden" animate="visible" className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
           Log in
         </motion.h1>
         <motion.form
+        initial="hidden" variants={loginVariants} animate="visible"
           className="flex items-center flex-col p-4 "
           onSubmit={handleSubmit}
         >
@@ -140,13 +150,14 @@ const Login = () => {
           </button>
         </motion.form>
         <motion.button
+        initial="hidden" variants={loginVariants} animate="visible"
           className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third"
           onClick={demoAccHandler}
         >
           Demo Account
         </motion.button>
 
-        <motion.p className="text-center">
+        <motion.p initial="hidden" variants={loginVariants} animate="visible" className="text-center">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-third">
             Sign Up

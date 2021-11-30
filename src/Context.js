@@ -11,6 +11,56 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [fullPicture, setFullPicture] = useState(null);
   const auth = getAuth();
+  const [isSmall, setIsSmall] = useState(
+    window.innerWidth >= 640 ? true : false
+  );
+
+
+  let headerVariants = isSmall
+    ? {
+        hidden: {
+          y: "100vh",
+        },
+        visible: {
+          y: 0,
+          transition: {
+            duration: 1,
+          },
+        },
+      }
+    : {
+        hidden: {
+          x: "100vw",
+        },
+        visible: {
+          x: 0,
+          transition: {
+            duration: 1,
+          },
+        },
+      };
+      let loginVariants = isSmall ? {
+        hidden: {
+          y : "-100vh"
+        },
+        visible :{
+          y: 0,
+          transition: {
+            duration: 1
+          }
+        }
+      } : {
+        hidden: {
+          x : "-100vw"
+        },
+        visible :{
+          x: 0,
+          transition: {
+            duration: 1
+          }
+        }
+      }
+  
 
   useEffect(() => {
     let unsub = onAuthStateChanged(auth, (user) => {
@@ -51,6 +101,8 @@ export const AppProvider = ({ children }) => {
         setLoading,
         fullPicture,
         setFullPicture,
+        headerVariants,
+        loginVariants
       }}
     >
       {!loading && children}
