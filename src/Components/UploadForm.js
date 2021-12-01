@@ -13,7 +13,6 @@ const UploadForm = () => {
   const _isMounted = useRef(true);
   const { getUrls, currentUser } = GlobalContext();
   const fileUploadRef = useRef();
-  
 
   const [flag, setFlag] = useState("");
 
@@ -66,7 +65,7 @@ const UploadForm = () => {
     );
     if (!_isMounted.current) return;
 
-    const uploadTask = uploadBytesResumable(imagesRef, file);
+    let uploadTask = uploadBytesResumable(imagesRef, file);
 
     // Register three observers:
     // 1. 'state_changed' observer, called any time the state changes
@@ -82,12 +81,13 @@ const UploadForm = () => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setProgress(progress);
-          console.log("Upload is " + progress + "% done");
-          
         }
       },
       (error) => {
         // Handle unsuccessful uploads
+        console.log(
+          "Due to some error, we couldn't upload your image, please try again."
+        );
       },
       () => {
         // Handle successful uploads on complete
@@ -95,12 +95,12 @@ const UploadForm = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           if (_isMounted.current) {
             setProgress(0);
-            
+
             uploadUrl(downloadURL, `${file.name}_${id}`);
             getUrls(currentUser.uid);
             setFlag("");
             setUploading(false);
-            
+
             fileUploadRef.current.value = "";
           }
         });
@@ -150,7 +150,6 @@ const UploadForm = () => {
           transition={{ duration: 1 }}
         ></motion.div>
       </motion.div>
-      
     </form>
   );
 };

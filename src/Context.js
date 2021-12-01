@@ -10,11 +10,12 @@ export const AppProvider = ({ children }) => {
   const [userUrls, setUserUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fullPicture, setFullPicture] = useState(null);
+  const [notice, setNotice] = useState("");
   const auth = getAuth();
+  // eslint-disable-next-line no-unused-vars
   const [isSmall, setIsSmall] = useState(
     window.innerWidth >= 640 ? true : false
   );
-
 
   let headerVariants = isSmall
     ? {
@@ -39,28 +40,43 @@ export const AppProvider = ({ children }) => {
           },
         },
       };
-      let loginVariants = isSmall ? {
+  let loginVariants = isSmall
+    ? {
         hidden: {
-          y : "-100vh"
+          y: "-100vh",
         },
-        visible :{
+        visible: {
           y: 0,
           transition: {
-            duration: 1
-          }
-        }
-      } : {
-        hidden: {
-          x : "-100vw"
+            duration: 1,
+          },
         },
-        visible :{
+        exit: {
+          y: "100vh",
+          opacity: 0,
+          transition: {
+            duration: 0.3,
+          },
+        },
+      }
+    : {
+        hidden: {
+          x: "-100vw",
+        },
+        visible: {
           x: 0,
           transition: {
-            duration: 1
-          }
-        }
-      }
-  
+            duration: 1,
+          },
+        },
+        exit: {
+          x: "100vw",
+          opacity: 0,
+          transition: {
+            duration: 0.3,
+          },
+        },
+      };
 
   useEffect(() => {
     let unsub = onAuthStateChanged(auth, (user) => {
@@ -102,7 +118,9 @@ export const AppProvider = ({ children }) => {
         fullPicture,
         setFullPicture,
         headerVariants,
-        loginVariants
+        loginVariants,
+        notice,
+        setNotice,
       }}
     >
       {!loading && children}

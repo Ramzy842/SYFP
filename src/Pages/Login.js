@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import LoginHeader from "../Components/LoginHeader";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import GlobalContext from "../Context";
 import { motion } from "framer-motion";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
-  const { auth, setUserUrls, loginVariants} = GlobalContext();
-  const history = useHistory();
+  const { auth, setUserUrls, loginVariants } = GlobalContext();
+
   const _ismounted = useRef(true);
   const [error, setError] = useState("");
   // eslint-disable-next-line no-unused-vars
-  
- 
 
-  
+  useEffect(() => {
+    document.title = "SYFP"
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -29,27 +28,27 @@ const Login = () => {
 
   const demoAccHandler = async () => {
     setLoading(true);
-    await signInWithEmailAndPassword(auth, "test@gmail.com", "test123").then(
-      () => {
+    await signInWithEmailAndPassword(
+      auth,
+      process.env.REACT_APP_DEMO_ACC_EMAIL,
+      process.env.REACT_APP_DEMO_ACC_PASSWORD
+    )
+      .then(() => {
         if (_ismounted.current) {
           try {
             // Signed in
             setLoading(false);
             setEmail("");
             setPw("");
-
-            history.push("/dashboard");
-          } catch (error) {
-            setLoading(false);
-
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
-          }
+          } catch (error) {}
         }
-      }
-    );
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (_ismounted.current) {
+          setLoading(false);
+        }
+      });
   };
 
   useEffect(() => {
@@ -68,14 +67,14 @@ const Login = () => {
 
             setEmail("");
             setPw("");
-
-            history.push("/dashboard");
           } catch (error) {}
         }
       })
       .catch(() => {
         if (_ismounted.current) {
-          setError("A user with this email does not exist or you're password might be wrong");
+          setError(
+            "A user with this email does not exist or you're password might be wrong"
+          );
           setTimeout(() => {
             setError("");
           }, 5000);
@@ -88,17 +87,24 @@ const Login = () => {
       });
   };
 
-  
-
   return (
     <motion.section className="  login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2 ">
       <LoginHeader />
       <article className=" overflow-hidden sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
-        <motion.h1 variants={loginVariants} initial="hidden" animate="visible" className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
+        <motion.h1
+          variants={loginVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl"
+        >
           Log in
         </motion.h1>
         <motion.form
-        initial="hidden" variants={loginVariants} animate="visible"
+          initial="hidden"
+          variants={loginVariants}
+          animate="visible"
+          exit="exit"
           className="flex items-center flex-col p-4 "
           onSubmit={handleSubmit}
         >
@@ -150,14 +156,23 @@ const Login = () => {
           </button>
         </motion.form>
         <motion.button
-        initial="hidden" variants={loginVariants} animate="visible"
+          initial="hidden"
+          variants={loginVariants}
+          animate="visible"
+          exit="exit"
           className="border-4 px-4 py-2 m-auto mt-0 mb-4 flex  bg-blue-third"
           onClick={demoAccHandler}
         >
           Demo Account
         </motion.button>
 
-        <motion.p initial="hidden" variants={loginVariants} animate="visible" className="text-center">
+        <motion.p
+          initial="hidden"
+          variants={loginVariants}
+          animate="visible"
+          exit="exit"
+          className="text-center"
+        >
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-third">
             Sign Up

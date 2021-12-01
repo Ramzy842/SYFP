@@ -4,7 +4,7 @@ import Footer from "../Components/Footer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import GlobalContext from "../Context";
 import LoginHeader from "../Components/LoginHeader";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 const SignUp = () => {
   const emailRef = useRef(null);
@@ -19,6 +19,10 @@ const SignUp = () => {
   const history = useHistory();
 
   const _isMounted = useRef(true);
+
+  useEffect(() => {
+    document.title = "SYFP | SIGN UP";
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -44,7 +48,13 @@ const SignUp = () => {
           }
         })
         .catch(() => {
-          if (_isMounted.current) {
+          if (_isMounted.current && pw.length < 6 && pwConfirm.length < 6) {
+            setLoading(false);
+            setError(" Your password should be at least 6 characters long");
+            setTimeout(() => {
+              setError("");
+            }, 4000);
+          } else if (_isMounted.current  ) {
             setLoading(false);
             setError("This email is already in use");
             setTimeout(() => {
@@ -54,9 +64,9 @@ const SignUp = () => {
 
           // ..
         });
-    } else if (_isMounted.current && pw !== pwConfirm ) {
-      setLoading(false)
-      setError("Please make sure your passwords match")
+    } else if (_isMounted.current && pw !== pwConfirm) {
+      setLoading(false);
+      setError("Please make sure your passwords match");
       setTimeout(() => {
         setError("");
       }, 3000);
@@ -67,11 +77,20 @@ const SignUp = () => {
     <section className="login font-default min-h-screen bg-blue-third text-blue-primary grid sm:grid-cols-2">
       <LoginHeader />
       <article className="sm:justify-center sm:min-h-screen bg-blue-secondary sm:flex sm:flex-col sm:border-l-8">
-        <motion.h1 variants={loginVariants} initial="hidden" animate="visible" className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl">
+        <motion.h1
+          variants={loginVariants}
+          initial="hidden"
+          exit="exit"
+          animate="visible"
+          className="bg-blue-primary sm:bg-transparent w-full text-2xl text-center text-blue-third py-2 mb-4 sm:justify-self-start font-bold tracking-widest sm:text-3xl"
+        >
           Sign up
         </motion.h1>
         <motion.form
-        variants={loginVariants} initial="hidden" animate="visible"
+          variants={loginVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
           className="flex items-center flex-col p-4"
           onSubmit={handleSubmit}
         >
@@ -132,12 +151,18 @@ const SignUp = () => {
             type="submit"
             disabled={loading}
             className="border-4 px-4 py-2 bg-blue-third"
-            style={loading ? { backgroundColor: "#000" } : {}}
+            style={loading ? { backgroundColor: "#FFF" } : {}}
           >
             {loading ? "Loading" : "Sign Up"}
           </button>
         </motion.form>
-        <motion.p variants={loginVariants} initial="hidden" animate="visible" className="text-center">
+        <motion.p
+          variants={loginVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="text-center"
+        >
           Already have an account?{" "}
           <Link to="/" className="text-blue-third">
             Log in
