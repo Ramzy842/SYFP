@@ -33,14 +33,14 @@ const FullPic = () => {
       <motion.div
         variants={soloPictureVariant}
         onClick={adjustBg}
-        className="absolute inset-0 bg-gray-500 w-screen h-screen flex justify-center p-4 items-center overflow-hidden"
+        className="absolute inset-0 bg-gray-500 w-screen h-screen flex justify-center  items-center overflow-hidden"
       >
         <motion.img
           initial={{ scale: 0 }}
           animate={{ scale: 1, transition: { duration: 0.3 } }}
           exit={{ scale: 0 }}
           src={fullPicture}
-          className="fullPicture"
+          className="fullPicture w-4/5 h-4/5 "
           alt=""
         />
       </motion.div>
