@@ -3,10 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { storage, firestore } from "../firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
-import { AiOutlineUpload } from "react-icons/ai";
+
 import GlobalContext from "../Context";
 import { v4 as uuidv4 } from "uuid";
-import { motion } from "framer-motion";
+
+import uploadMobile from "../assets/icons/upload_mobile.svg";
 const UploadForm = () => {
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -109,13 +110,13 @@ const UploadForm = () => {
   };
 
   return (
-    <form className="photos flex max-w-full flex-col items-center my-6">
+    <form className="photos flex max-w-full flex-col items-center ">
       <input
         style={{ display: "none" }}
         type="file"
         onChange={handleChange}
         ref={fileUploadRef}
-        className="rounded-full w-12 h-12 bg-blue-primary flex items-center mb-2"
+        className="rounded-full w-12 h-12 bg-blue-primary flex items-center"
       />
       <button
         className="p-2 text-2xl lg:text-4xl hover:bg-blue-primary hover:text-blue-third"
@@ -123,33 +124,18 @@ const UploadForm = () => {
           e.preventDefault();
           fileUploadRef.current.click();
         }}
-        style={{ border: "2px solid" }}
       >
-        <AiOutlineUpload />
+        <img src={uploadMobile} alt="upload mobile" />
       </button>
-      <motion.h1
-        className={`text-center mt-4`}
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0.2 }}
-        transition={{ yoyo: Infinity }}
-      >
-        {flag}
-      </motion.h1>
+      <h1 className={`text-center `}>{flag}</h1>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className={`progress h-1 bg-blue-third flex ${
+      <div
+        className={` h-1 bg-gray-300 flex ${
           uploading && "w-4/5"
-        } mt-2 justify-start`}
+        } my-4 justify-start`}
       >
-        <motion.div
-          className="progress h-1 justify-self-center bg-blue-primary "
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 1 }}
-        ></motion.div>
-      </motion.div>
+        <div className={`${progress <= 50 ? "w-1/2" : "w-full"}  h-1  bg-blue-600 transition`}></div>
+      </div>
     </form>
   );
 };

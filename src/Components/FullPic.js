@@ -1,24 +1,7 @@
-import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
 import GlobalContext from "../Context";
-
-let soloPictureVariant = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-    },
-  },
-  exit: {
-    transition: {
-      when: "afterChildren",
-    },
-  },
-};
+import x from "../assets/icons/x-circle.svg"
 
 const FullPic = () => {
   const { fullPicture, setFullPicture } = GlobalContext();
@@ -29,22 +12,19 @@ const FullPic = () => {
   };
 
   return (
-    <AnimatePresence>
-      <motion.div
-        variants={soloPictureVariant}
-        onClick={adjustBg}
-        className="absolute inset-0 bg-gray-500 w-screen h-screen flex justify-center  items-center overflow-hidden"
-      >
-        <motion.img
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { duration: 0.3 } }}
-          exit={{ scale: 0 }}
+    <div
+      onClick={adjustBg}
+      className=" backdrop-filter backdrop-blur-lg fixed bottom-0 top-0 right-0 left-0 flex justify-center mx-auto items-center p-12 w-full h-full "
+    >
+      <div className="justify-center items-center relative h-auto sm:h-96 w-auto lg:h-500 " data-aos='fade-in'>
+        <img
           src={fullPicture}
-          className="fullPicture w-4/5 h-4/5 "
+          className="  shadow-lg w-auto sm:h-96 h-auto lg:h-500 "
           alt=""
         />
-      </motion.div>
-    </AnimatePresence>
+        <img src={x} alt="exit" className="absolute top-2 right-2 cursor-pointer w-6 h-6"   />
+      </div>
+    </div>
   );
 };
 

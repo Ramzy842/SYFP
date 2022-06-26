@@ -5,7 +5,7 @@ import { firestore } from "../firebase.config";
 import GlobalContext from "../Context";
 import { storage } from "../firebase.config";
 import { ref, deleteObject } from "firebase/storage";
-import { motion } from "framer-motion";
+
 
 const Photo = ({ id, data }) => {
   const { currentUser, userUrls, setUserUrls, setFullPicture, setNotice } =
@@ -20,7 +20,7 @@ const Photo = ({ id, data }) => {
       .then(() => {
         // File deleted successfully
 
-        setNotice({ color: "#6EE7B7", note: "Image deleted successfully!" });
+        setNotice({ color: "#82DB58", note: "Image deleted successfully!" });
         setUserUrls(newUrls);
       })
       .catch((error) => {
@@ -38,22 +38,21 @@ const Photo = ({ id, data }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5 } }}
-      className="border-4 border-blue-secondary flex flex-col pb-2"
+    <div
+    data-aos="fade-up"
+      className=" border-blue-secondary flex flex-col pb-2 relative group " 
     >
       <img
         src={data.downloadURL}
-        className=" cursor-pointer h-36 w-36 sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-72 lg:w-72"
+        className="transition cursor-pointer h-24 w-24 sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-56 lg:w-56  rounded-md custom-shadow transform hover:-translate-y-2   "
         alt={data.name}
         onClick={() => setFullPicture(data.downloadURL)}
       />
       <AiFillDelete
         onClick={() => deleteImgHandler(currentUser.uid, id, data.name)}
-        className="bg-blue-primary text-blue-third self-end mt-2 w-6 h-6 mr-2 cursor-pointer hover:bg-blue-secondary hover:text-blue-primary"
+        className=" absolute  self-end mt-2 w-6 h-6 mr-2 cursor-pointer bg-red-500 text-white hover:text-black"
       />
-    </motion.div>
+    </div>
   );
 };
 

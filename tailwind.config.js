@@ -6,14 +6,21 @@ module.exports = {
       fontFamily: {
         default: ["Poppins", "sans-serif"],
       },
+      height: {
+        '500': '500px',
+        '820': '820px',
+      },
       colors: {
-        blue: {
-          primary: "#05445E",
-          secondary: "#189AB4",
-          third: "#75E6DA",
-          fourth: "#D4F1F4"
-        }
-      }
+        "blue1": "#64B7D1",
+        "blue2": "#0097C7",
+        "main": "#11233E",
+        "input": "#B6DAFE",
+        "input-focus": "#0075FF",
+        "github1": "#C0DBE1",
+        "github2": "#FFFFFF",
+        "dark1": "#000000",
+        "dark2": "#06303D"
+      },
     },
   },
   variants: {

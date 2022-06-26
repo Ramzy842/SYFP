@@ -4,3 +4,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-form-btn {
+  background: linear-gradient(90.55deg, #338ddf -3.49%, #0080f5 86.3%);
+}
+
+.outline-focus {
+  outline-color: #0075ff !important ;
+}
+
+.custom-shadow {
+  filter: drop-shadow(2px 0px 4px rgba(0, 0, 0, 0.4));
+}

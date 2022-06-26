@@ -11,72 +11,13 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [fullPicture, setFullPicture] = useState(null);
   const [notice, setNotice] = useState("");
+  const [loadingHero, setLoadingHero] = useState(true);
+  const [isDashboard, setIsDashboard] = useState(false);
   const auth = getAuth();
   // eslint-disable-next-line no-unused-vars
   const [isSmall, setIsSmall] = useState(
     window.innerWidth >= 640 ? true : false
   );
-
-  let headerVariants = isSmall
-    ? {
-        hidden: {
-          y: "100vh",
-        },
-        visible: {
-          y: 0,
-          transition: {
-            duration: 1,
-          },
-        },
-      }
-    : {
-        hidden: {
-          x: "100vw",
-        },
-        visible: {
-          x: 0,
-          transition: {
-            duration: 1,
-          },
-        },
-      };
-  let loginVariants = isSmall
-    ? {
-        hidden: {
-          y: "-100vh",
-        },
-        visible: {
-          y: 0,
-          transition: {
-            duration: 1,
-          },
-        },
-        exit: {
-          y: "100vh",
-          opacity: 0,
-          transition: {
-            duration: 0.3,
-          },
-        },
-      }
-    : {
-        hidden: {
-          x: "-100vw",
-        },
-        visible: {
-          x: 0,
-          transition: {
-            duration: 1,
-          },
-        },
-        exit: {
-          x: "100vw",
-          opacity: 0,
-          transition: {
-            duration: 0.3,
-          },
-        },
-      };
 
   useEffect(() => {
     let unsub = onAuthStateChanged(auth, (user) => {
@@ -117,10 +58,13 @@ export const AppProvider = ({ children }) => {
         setLoading,
         fullPicture,
         setFullPicture,
-        headerVariants,
-        loginVariants,
+
         notice,
         setNotice,
+        loadingHero,
+        setLoadingHero,
+        isDashboard,
+        setIsDashboard,
       }}
     >
       {!loading && children}

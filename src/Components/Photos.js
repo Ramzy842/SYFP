@@ -2,6 +2,7 @@ import React from "react";
 
 import GlobalContext from "../Context";
 
+
 import Photo from "./Photo";
 
 const Photos = () => {
@@ -12,7 +13,7 @@ const Photos = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 p-4 gap-2 md:gap-0 md:gap-y-4 sm:grid-cols-3 sm:w-11/12 justify-items-center mx-auto ">
+    <div className={` grid grid-cols-3 px-2 gap-2 md:gap-4 sm:px-12 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 justify-center justify-items-center container mx-auto overflow-hidden `}  >
       {userUrls.map((image, index) => {
         return <Photo key={index} {...image} />;
       })}
