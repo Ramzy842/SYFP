@@ -5,18 +5,18 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import { AnimatePresence } from "framer-motion";
-import MobileLayout from "./layout/MobileLayout";
+import MainLayout from "./layout/MainLayout";
 
 function App() {
   const location = useLocation();
   return (
     <AnimatePresence exitBeforeEnter>
       <Switch location={location} key={location.key}>
-        <MobileLayout>
+        <MainLayout>
           <PrivateRouteLogin exact path="/" component={Login} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRouteLogin exact path="/signup" component={SignUp} />
-        </MobileLayout>
+        </MainLayout>
       </Switch>
     </AnimatePresence>
   );

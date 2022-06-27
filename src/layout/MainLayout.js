@@ -8,19 +8,19 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'animate.css';
 
-const MobileLayout = ({ children }) => {
+const MainLayout = ({ children }) => {
   useEffect(() => {
     AOS.init();
   }, [])
   const { loadingHero, isDashboard, fullPicture } = GlobalContext();
   return (
-    <div className={`bg-gradient-to-br ${fullPicture ? "from-dark1 to-dark2" : "from-blue1 to-blue2"} min-h-screen z-50`}>
+    <div className={`bg-gradient-to-br ${fullPicture ? "from-dark1 to-dark2" : "from-blue1 to-blue2"}  ${loadingHero &&  "from-dark1 to-dark2"} min-h-screen z-50`}>
       <div className="flex items-center justify-between lg:justify-start z-50 transition">
         <Link to="/">
           <img
             src={loadingHero ? syfp : syfp_rounded}
             alt="syfp_logo"
-            className="p-2 outline-none lg:hidden transition z-50"
+            className="p-2 outline-none lg:hidden transition z-50  "
           />
         </Link>
         <Link to="/">
@@ -39,4 +39,4 @@ const MobileLayout = ({ children }) => {
   );
 };
 
-export default MobileLayout;
+export default MainLayout;

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import GlobalContext from "../Context";
 
-import cover_top from "../assets/misc/cover_top.svg";
 import github from "../assets/icons/github.svg";
 import signin from "../assets/icons/signin.svg";
 import demo from "../assets/icons/demo_acc.svg";
@@ -92,7 +91,7 @@ const Login = () => {
             setEmailErr("")
             setPwErr("")
             setError(
-              "A user with this email does not exist or you're password might be wrong"
+              "A user with this email does not exist or your password might be wrong"
             );
             setTimeout(() => {
               setError("");
@@ -122,9 +121,9 @@ const Login = () => {
       </a>
       {loadingHero ? (
         <div className="flex flex-col h-screen absolute top-0 bottom-0 w-full z-20">
-          <div className=" w-full h-full flex items-center justify-center lg:hidden z-20 ">
+          <div className=" w-full h-full flex items-center justify-center  z-20 ">
             <h1
-              className="font-semibold text-center text-2xl text-white font-default mx-4 z-20 "
+              className="font-semibold text-center text-2xl lg:text-4xl text-white font-default mx-4 z-20 "
               data-aos="fade-up"
             >
               Store Your Favorite Photos For Free

@@ -8,9 +8,7 @@ import signin from "../assets/icons/signin.svg";
 import github from "../assets/icons/github.svg";
 
 const SignUp = () => {
-  const emailRef = useRef(null);
-  const pwRef = useRef(null);
-  const pwConfirmRef = useRef(null);
+  
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -81,7 +79,7 @@ const SignUp = () => {
             setLoading(false);
             setEmailErr("");
             setPwConfErr("")
-            setPwErr(" Your password should be at least 6 characters long");
+            setPwErr("Your password should be at least 6 characters long");
             setTimeout(() => {
               setPwErr("");
             }, 4000);
