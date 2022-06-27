@@ -140,7 +140,7 @@ const SignUp = () => {
           </div>
           <div id="password">
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               className="bg-input h-12 rounded-md pl-4 w-full mb-4 placeholder:text-main placeholder:font-extralight shadow-md outline-focus"
               required
@@ -152,7 +152,7 @@ const SignUp = () => {
           </div>
           <div>
             <input
-              type="text"
+              type="password"
               placeholder="Confirm Password"
               className="bg-input h-12 rounded-md pl-4 w-full placeholder:text-main placeholder:font-extralight shadow-md outline-focus"
               required
